@@ -61,74 +61,8 @@
             </div>
             <hr/>
             <br/>
-            <div class = "footer">
-                This <button id="counter">Button</button> has been clicked <span id="count">0</span> times.
-                <hr/>
-                <input type="text" id="name" placeholder="name"/>
-                <input type="submit" id="submit_btn" value="Submit"/>
-                <ul id="namelist">
-                </ul>
-            </div>
+            
         </div>
-        <script>
-          var button = document.getElementById('counter');
-
-          button.onclick = function () {
-            //Create a request object
-            var request = new XMLHttpRequest();
-
-            //Capture the response and store it in a variable
-            request.onreadystatechange = function () {
-              if (request.readyState === XMLHttpRequest.DONE) {
-                //Take some action
-                if (request.status === 200) {
-                  var counter = request.responseText;
-                  var span = document.getElementById('count');
-                  span.innerHTML = counter.toString();
-                }
-              }
-              //Not done yet
-            };
-
-            //Make the request
-            request.open('GET', '/counter', true);
-            request.send(null);
-          };
-
-
-          //Submit name
-          var submit = document.getElementById('submit_btn');
-          submit.onclick = function () {
-
-            //Create a request object
-            var request = new XMLHttpRequest();
-
-            //Capture the response and store it in a variable
-            request.onreadystatechange = function () {
-              if (request.readyState === XMLHttpRequest.DONE) {
-                //Take some action
-                if (request.status === 200) {	// response 200 is a successful response
-                  //Capture a list of names and render it as a list
-                  var names = request.responseText;
-                  names = JSON.parse(names);
-                  var list = '';
-                  for (var i=0; i< names.length; i++) {
-                    list += '<li>' + names[i] + '</li>';
-                  }
-                  var ul = document.getElementById('namelist');
-                  ul.innerHTML = list;
-                }
-              }
-              //Not done yet
-            };
-
-            //Make the request
-            var nameInput = document.getElementById('name');
-            var name = nameInput.value;
-            request.open('GET', '/submit-name?name=' + name, true);
-            request.send(null);
-
-          };
-        </script>
+        
     </body>
 </html>
