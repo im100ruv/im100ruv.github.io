@@ -1,1 +1,134 @@
-Hello World. This is Saurabh Karna.
+<!doctype html>
+<html>
+    <head>
+      <style>
+        body {
+            font-family: sans-serif;
+            background-color: lightgrey;
+            margin-top: 25px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .text-big {
+            font-size: 200%;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .img-medium {
+            height: 180px;
+        }
+
+        .container {
+          max-width: 800px;
+          margin: 0 auto;
+          color: grey;
+          font-family: sans-serif;
+          padding-top: 60px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="center">
+                <img id='me' src="ui/myPic.jpg" class="img-medium" alt="Saurabh Photo">
+            </div>
+            <hr/>
+            <br/>
+            <div id='mainText' class="center text-big bold">
+                Hi! I am Saurabh Karna.<br/>
+    	    ----------------------------------
+            </div>
+            <br/>
+            <div>
+                <p align="center">
+                    I study MCA.<br/>
+                    I am a student at SVCET, Chittoor.
+                </p>
+            </div>
+            <hr/>
+            <div>
+                <p align="center">
+                  My project links: </p>
+                    <ul><li>conFusion </li> </ul>
+            </div>
+            <hr/>
+            <br/>
+            <div class = "footer">
+                This <button id="counter">Button</button> has been clicked <span id="count">0</span> times.
+                <hr/>
+                <input type="text" id="name" placeholder="name"/>
+                <input type="submit" id="submit_btn" value="Submit"/>
+                <ul id="namelist">
+                </ul>
+            </div>
+        </div>
+        <script>
+          var button = document.getElementById('counter');
+
+          button.onclick = function () {
+            //Create a request object
+            var request = new XMLHttpRequest();
+
+            //Capture the response and store it in a variable
+            request.onreadystatechange = function () {
+              if (request.readyState === XMLHttpRequest.DONE) {
+                //Take some action
+                if (request.status === 200) {
+                  var counter = request.responseText;
+                  var span = document.getElementById('count');
+                  span.innerHTML = counter.toString();
+                }
+              }
+              //Not done yet
+            };
+
+            //Make the request
+            request.open('GET', '/counter', true);
+            request.send(null);
+          };
+
+
+          //Submit name
+          var submit = document.getElementById('submit_btn');
+          submit.onclick = function () {
+
+            //Create a request object
+            var request = new XMLHttpRequest();
+
+            //Capture the response and store it in a variable
+            request.onreadystatechange = function () {
+              if (request.readyState === XMLHttpRequest.DONE) {
+                //Take some action
+                if (request.status === 200) {	// response 200 is a successful response
+                  //Capture a list of names and render it as a list
+                  var names = request.responseText;
+                  names = JSON.parse(names);
+                  var list = '';
+                  for (var i=0; i< names.length; i++) {
+                    list += '<li>' + names[i] + '</li>';
+                  }
+                  var ul = document.getElementById('namelist');
+                  ul.innerHTML = list;
+                }
+              }
+              //Not done yet
+            };
+
+            //Make the request
+            var nameInput = document.getElementById('name');
+            var name = nameInput.value;
+            request.open('GET', '/submit-name?name=' + name, true);
+            request.send(null);
+
+          };
+        </script>
+    </body>
+</html>
